@@ -62,6 +62,21 @@ func expensesDetails(expensesList []float32) (max, min, total, average float32) 
 	return
 }
 
-func Export() {
+func Export(filename string, list []float32) error {
 
+	f, err := os.Create(filename) 
+	if err != nil {
+		return err
+	}
+
+	defer f.Close()
+
+	w := bufio.NewWriter(f)
+	
+	_, err = w.WriteString(contentString(list))
+	if err != nil {
+		return err
+	}
+
+	return w.Flush()
 }
